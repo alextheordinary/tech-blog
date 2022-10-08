@@ -52,11 +52,11 @@ router.put('/:id', async (req, res) => {
             title: req.body.title,
             content: req.body.content
         },
-        {
-            where: {
-                id: req.params.id
+            {
+                where: {
+                    id: req.params.id
+                }
             }
-        }
         );
         res.status(200).json(updatePost);
     } catch (err) {
@@ -68,11 +68,11 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
     try {
         const destroyPost = await Post.destroy(
-        {
-            where: {
-                id: req.params.id
+            {
+                where: {
+                    id: req.params.id
+                }
             }
-        }
         );
         res.status(200).json(destroyPost);
     } catch (err) {

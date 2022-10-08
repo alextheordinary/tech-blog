@@ -11,11 +11,11 @@ router.get('/:id', async (req, res) => {
                 model: User, attributes: ['name']
             }]
         },
-        {
-            where: {
-                post_id: req.params.id
+            {
+                where: {
+                    post_id: req.params.id
+                }
             }
-        }
         );
         res.status(200).json(comments);
     } catch (err) {
