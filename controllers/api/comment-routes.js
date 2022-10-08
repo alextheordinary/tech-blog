@@ -6,12 +6,18 @@ const { User, Post, Comment } = require('../../models');
 // Returns an array of all comments associated with a post id + creator name of comment
 router.get('/:id', async (req, res) => {
     try {
-        const comments = await Comment.findByPk(req.params.id, {
+        const comments = await Comment.findAll({
             include: [{
                 model: User, attributes: ['name']
             }]
-        });
-        res.status(200).json(posts);
+        },
+        {
+            where: {
+                post_id: req.params.id
+            }
+        }
+        );
+        res.status(200).json(comments);
     } catch (err) {
         res.status(400).json(err);
     }
