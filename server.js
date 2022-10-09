@@ -1,4 +1,5 @@
 // Import dependencies
+const path = require('path'); // path object for use in serving static files
 const express = require('express'); // express server
 const session = require('express-session'); // for session data / cookies
 const exphbs = require('express-handlebars'); // handlebars template engine
@@ -34,6 +35,8 @@ app.set('view engine', 'handlebars');
 app.use(session(sess)); 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+// To serve static files from the public folder
+app.use(express.static(path.join(__dirname, 'public'))); 
 
 app.use(routes);
 
