@@ -1,13 +1,8 @@
 const router = require('express').Router();
-const {User, Post, Comment} = require('../models');
+const queryHelpers = require('../utils/query-helpers');
 
 router.get('/', async (req, res) => {
-    const postData = await Post.findAll({
-        include: [{
-            model: User, attributes: ['name']
-        }]
-    });
-    const posts = postData.map(post => post.get({plain: true}));
+    const posts = await queryHelpers.getPosts();
     res.render('homepage', {posts});
   });
   
