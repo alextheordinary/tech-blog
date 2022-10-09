@@ -1,16 +1,15 @@
-{{#each posts as |post|}}
 <div class="card">
-  <a href="/posts/{{post.id}}">
   <header class="card-header has-background-primary">
     <p class="card-header-title">
       {{post.title}} <br> by {{post.user.name}} on {{format_date post.createdAt}}
     </p>
   </header>
-  </a>
   <div class="card-content">
     <div class="content">
       {{post.content}}
     </div>
   </div>
 </div>
+{{#each post.comments as |comment|}}
+    {{>post-comments}}
 {{/each}}
