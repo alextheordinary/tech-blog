@@ -1,5 +1,4 @@
 // importing models
-const { post } = require('../controllers/home-routes');
 const {User, Post, Comment} = require('../models');
 
 module.exports = {
@@ -23,19 +22,14 @@ module.exports = {
         const posts = postData.get({plain: true});
         return posts;
     },
-    getPostComments: async (id) => {
-        const commentData = await Comment.findAll({
+    getUserPosts: async (id) => {
+        const postData = await Post.findAll({
             include: [{
                 model: User, attributes: ['name']
-            }]
-        },
-            {
-                where: {
-                    post_id: id
-                }
-            }
-        );
-        const comments = commentData.map(comment => comment.get({plain: true}));
-        return comments;
+            }],
+            where: {user_id: id}
+        });
+        const posts = postData.map(post => post.get({plain: true}));
+        return posts;
     },
 }
