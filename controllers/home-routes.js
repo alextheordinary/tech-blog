@@ -21,7 +21,6 @@ router.get('/posts/:id', async (req, res) => {
 
 router.get('/dashboard', async (req, res) => {
     try {
-        console.log(req.session);
         const posts = await queryHelpers.getUserPosts(req.session.user_id);
         res.render('dashboard', { posts });
     } catch (err) {

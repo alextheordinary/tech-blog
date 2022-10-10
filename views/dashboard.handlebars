@@ -1,8 +1,9 @@
-{{#each posts as |post|}}
+<h1 class="title">Dashboard for {{posts.name}}</h1>
+{{#each posts.posts as |post|}}
 <div class="card">
   <a>
   <header class="card-header has-background-primary">
-    <p class="card-header-title">
+    <p class="card-header-title has-text-white">
       {{post.title}} <br> by {{post.user.name}} on {{format_date post.createdAt}}
     </p>
   </header>
@@ -13,4 +14,5 @@
     </div>
   </div>
 </div>
+<br>
 {{/each}}
