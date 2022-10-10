@@ -29,16 +29,27 @@
                 <a class="navbar-item has-text-white-bis" href="/dashboard">
                     Dashboard
                 </a>
+                {{#unless logged_in}}
                 <a class="navbar-item has-text-white-bis" href="/login">
                     Login
                 </a>
+                {{/unless}}
+                {{#if logged_in}}
+                <a class="navbar-item has-text-white-bis" id="logout">
+                    Logout
+                </a>
+                {{/if}}
             </div>
         </div>
     </nav>
     <br>
     <div class="container">
-    {{{ body }}}
+        {{{ body }}}
     </div>
+
+    {{#if logged_in}}
+    <script src="/js/logout.js"></script>
+    {{/if}}
 </body>
 
 </html>

@@ -1,18 +1,15 @@
 <h1 class="title">Dashboard for {{posts.name}}</h1>
+<button class="button is-primary">New Post</button>
+<br><br>
 {{#each posts.posts as |post|}}
 <div class="card">
   <a>
-  <header class="card-header has-background-primary">
-    <p class="card-header-title has-text-white">
-      {{post.title}} <br> by {{post.user.name}} on {{format_date post.createdAt}}
-    </p>
-  </header>
+    <header class="card-header has-background-primary">
+      <p class="card-header-title has-text-white">
+        {{post.title}} on {{format_date post.createdAt}}
+      </p>
+    </header>
   </a>
-  <div class="card-content">
-    <div class="content">
-      {{post.content}}
-    </div>
-  </div>
 </div>
 <br>
 {{/each}}
