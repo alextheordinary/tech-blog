@@ -21,10 +21,20 @@ router.get('/posts/:id', async (req, res) => {
 
 router.get('/dashboard', async (req, res) => {
     try {
-        const posts = await queryHelpers.getUserPosts(2);
+        req.session.user_id = 3;
+        console.log(req.session);
+        const posts = await queryHelpers.getUserPosts(req.session.user_id);
         res.render('dashboard', { posts });
     } catch (err) {
         res.status(500).json(err);
+    }
+});
+
+router.get('/login', async (req, res) => {
+    try {
+
+    } catch (err) {
+        res.status(400).json(err);
     }
 });
 
