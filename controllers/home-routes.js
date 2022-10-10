@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const queryHelpers = require('../utils/query-helpers');
+const {withAuth, signedIn} = require('../utils/auth');
 
 // Route for home page - doesn't need to check logged in status to display content, but uses it to toggle link between login/logout
 router.get('/', async (req, res) => {
@@ -12,7 +13,7 @@ router.get('/', async (req, res) => {
 });
 
 // Route to display a single post with its comments. Checks to see if the user is logged in or else it will redirect to login page
-router.get('/posts/:id', async (req, res) => {
+router.get('/posts/:id', withAuth, async (req, res) => {
     try {
         const post = await queryHelpers.getSinglePost(req.params.id);
         res.render('post', { post, logged_in: req.session.logged_in });
@@ -22,7 +23,7 @@ router.get('/posts/:id', async (req, res) => {
 });
 
 // Route to display a user dashboard. Checks to see if the user is logged in or else it will redirect to login page
-router.get('/dashboard', async (req, res) => {
+router.get('/dashboard', withAuth, async (req, res) => {
     try {
         const posts = await queryHelpers.getUserPosts(req.session.user_id);
         res.render('dashboard', { posts, logged_in: req.session.logged_in });
@@ -32,7 +33,7 @@ router.get('/dashboard', async (req, res) => {
 });
 
 // Route to display login page. Checks to see if user is logged in and will redirect to home page if they are.
-router.get('/login', async (req, res) => {
+router.get('/login', signedIn, async (req, res) => {
     try {
         res.render('login')
     } catch (err) {
@@ -41,7 +42,7 @@ router.get('/login', async (req, res) => {
 });
 
 // Route to signup. Checks to see if user is logged in and will redirect to home page if they are.
-router.get('/signup', async (req, res) => {
+router.get('/signup', signedIn, async (req, res) => {
     try {
         res.render('signup')
     } catch (err) {
