@@ -13,12 +13,12 @@ const helpers = require('./utils/helpers'); // handlebars helpers
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Creating the session - 5 minute maxAge
+// Creating the session - 5 minute maxAge for testing / grading purposes
 
 const sess = {
-    secret: "dsakljsdfjdsfsd;sdafsd",
+    secret: process.env.SESS_SECRET,
     cookie: {
-      maxAge: 60 * 60 * 1000
+      maxAge: 5 * 60 * 1000
     },
     resave: false,
     saveUninitialized: true,
