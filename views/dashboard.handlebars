@@ -3,7 +3,7 @@
 <br><br>
 {{#each posts.posts as |post|}}
 <div class="card">
-  <a>
+  <a href="editpost/{{post.id}}">
     <header class="card-header has-background-primary">
       <p class="card-header-title has-text-white">
         {{post.title}} on {{format_date post.createdAt}}

@@ -1,0 +1,20 @@
+<h1 class="title-4">Title</h1>
+<input class="input" type="text" placeholder="Write your title here" id="title" value="{{{post.title}}}">
+<h1 class="title-4">Content</h1>
+<textarea class="textarea" placeholder="Write your post here" id="content">{{post.content}}</textarea>
+<br>
+<div class="field">
+    <p class="control">
+        <button class="button is-primary" id="updatepost" data-pid={{post.id}}>
+            Save Changes
+        </button>
+        <button class="button is-primary" id="delete-post">
+            Delete Post
+        </button>
+        <button class="button is-primary" id="cancel">
+            Cancel
+        </button>
+    </p>
+</div>
+
+<script src="js/editpost.js"></script>

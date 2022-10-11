@@ -1,9 +1,7 @@
 const addPostHandler = async (event) => {
     event.preventDefault();
-    console.log(event);
     const title = document.querySelector("#title").value.trim();
     const content = document.querySelector("#content").value.trim();
-    const user_id = document.querySelector("#add-post").dataset.uid;
 
     if (title && content) {
         const response = await fetch('api/posts/', {

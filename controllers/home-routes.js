@@ -58,4 +58,15 @@ router.get('/add-post', withAuth, async (req, res) => {
     }
 });
 
+router.get('/editpost/:id', withAuth, async (req, res) => {
+    try {
+        console.log(req.params.id);
+        const post = await queryHelpers.getSinglePost(req.params.id);
+        res.render('editpost', { post, logged_in: req.session.logged_in });
+    } catch (err) {
+        res.status(400).json(err);
+    }
+});
+
+
 module.exports = router;
