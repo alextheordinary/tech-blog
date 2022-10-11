@@ -1,5 +1,5 @@
 <h1 class="title">Dashboard for {{posts.name}}</h1>
-<button class="button is-primary">New Post</button>
+<button class="button is-primary" id="add-post">New Post</button>
 <br><br>
 {{#each posts.posts as |post|}}
 <div class="card">
@@ -13,3 +13,5 @@
 </div>
 <br>
 {{/each}}
+
+<script src="js/dashboard.js"></script>
