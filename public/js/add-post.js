@@ -17,7 +17,16 @@ const addPostHandler = async (event) => {
           }
     }
 };
+const cancelButtonHandler = async (event) => {
+  event.preventDefault();
+
+  document.location.replace(`/dashboard`);
+
+};
 
 document
   .querySelector('#add-post')
   .addEventListener('click', addPostHandler);
+  document
+  .querySelector('#cancel')
+  .addEventListener('click', cancelButtonHandler);
