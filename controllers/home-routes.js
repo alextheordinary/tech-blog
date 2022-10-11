@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const queryHelpers = require('../utils/query-helpers');
-const {withAuth, signedIn} = require('../utils/auth');
+const {withAuth, signedIn, creatorCheck} = require('../utils/auth');
 
 // Route for home page - doesn't need to check logged in status to display content, but uses it to toggle link between login/logout
 router.get('/', async (req, res) => {
@@ -50,6 +50,7 @@ router.get('/signup', signedIn, async (req, res) => {
     }
 });
 
+// Route to add a post. Checks to see if the user is logged in or else it will redirect to login page
 router.get('/add-post', withAuth, async (req, res) => {
     try {
         res.render('add-post', { logged_in: req.session.logged_in } )
@@ -58,15 +59,24 @@ router.get('/add-post', withAuth, async (req, res) => {
     }
 });
 
-router.get('/editpost/:id', withAuth,  async (req, res) => {
+// Route to edit a post. Checks to see if user is logged in and if the user is the creator of the post. Redirects if either check fails
+router.get('/editpost/:id', withAuth, creatorCheck, async (req, res) => {
     try {
         const post = await queryHelpers.getSinglePost(req.params.id);
-        console.log(post);
         res.render('editpost', { post, logged_in: req.session.logged_in });
     } catch (err) {
         res.status(400).json(err);
     }
 });
 
+// Route to add a comment
+router.get('/comment/:id', withAuth, async (req, res) => {
+    try {
+        const post = await queryHelpers.getSinglePost(req.params.id);
+        res.render('comment', { post, logged_in: req.session.logged_in });
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
 
 module.exports = router;

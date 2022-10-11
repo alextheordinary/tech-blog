@@ -1,3 +1,5 @@
+const queryHelpers = require('../utils/query-helpers');
+
 const withAuth = (req, res, next) => {
     // Forces you to login page if not logged in
     if (!req.session.logged_in) {
@@ -15,5 +17,16 @@ const withAuth = (req, res, next) => {
         next();
     }
   }
+
+  const creatorCheck = async (req, res, next) => {
+    // Stops users from editing other user posts by directly typing in edit post URLs
+    const postCreator = await queryHelpers.getPostCreator(req.params.id);
+    const isCreator = postCreator.user_id === req.session.user_id;
+    if (isCreator) {
+        next();
+    } else {
+      res.redirect('back');
+    }
+  }
   
-  module.exports = {withAuth, signedIn};
+  module.exports = {withAuth, signedIn, creatorCheck};

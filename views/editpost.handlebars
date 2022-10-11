@@ -1,70 +1,81 @@
-<h1 class="title-4">Title</h1>
-<input class="input" type="text" placeholder="Write your title here" id="title" value="{{{post.title}}}">
-<h1 class="title-4">Content</h1>
-<textarea class="textarea" placeholder="Write your post here" id="content">{{post.content}}</textarea>
-<br>
-<div class="field">
-    <p class="control">
-        <button class="button is-primary" id="updatepost" data-pid={{post.id}}>
-            Save Changes
-        </button>
-        <button class="button is-primary" id="delete-post">
-            Delete Post
-        </button>
-        <button class="button is-primary" id="cancel">
-            Cancel
-        </button>
-    </p>
+<div class="container">
+    <h1 class="title-4">Title</h1>
+    <input class="input" type="text" placeholder="Write your title here" id="title" value="{{{post.title}}}">
+    <br><br>
+    <h1 class="title-4">Content</h1>
+    <textarea class="textarea" placeholder="Write your post here" id="content">{{post.content}}</textarea>
+    <br>
+    <div class="field">
+        <p class="control">
+            <button class="button is-primary" id="updatepost" data-pid={{post.id}}>
+                Save Changes
+            </button>
+            <button class="button is-primary" id="delete-post">
+                Delete Post
+            </button>
+            <button class="button is-primary" id="cancel">
+                Cancel
+            </button>
+        </p>
+    </div>
 </div>
 
-{{!-- <script src="../public/js/editpost.js"></script> --}}
+{{!--
+<script src="../public/js/editpost.js"></script> --}}
 
 <script>
-const editPostHandler = async (event) => {
-    event.preventDefault();
-    console.log("hit the edit button");
-    const title = document.querySelector("#title").value.trim();
-    const content = document.querySelector("#content").value.trim();
-    const postID = document.querySelector('#updatepost').dataset.pid;
-    console.log(postID);
+    const editPostHandler = async (event) => {
+        event.preventDefault();
+        const title = document.querySelector("#title").value.trim();
+        const content = document.querySelector("#content").value.trim();
+        const postID = document.querySelector('#updatepost').dataset.pid;
 
-    if (title && content) {
+        if (title && content) {
+            const response = await fetch(`../api/posts/${postID}`, {
+                method: 'PUT',
+                body: JSON.stringify({ title, content }),
+                headers: { 'Content-Type': 'application/json' },
+            });
+
+            if (response.ok) {
+
+                document.location.replace(`/posts/${postID}`);
+            } else {
+                alert('Failed to edit post');
+            }
+        }
+    };
+
+    const deletePostHandler = async (event) => {
+        event.preventDefault();
+        const postID = document.querySelector('#updatepost').dataset.pid;
+
         const response = await fetch(`../api/posts/${postID}`, {
-            method: 'PUT',
-            body: JSON.stringify({ title, content }),
+            method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
         });
-
         if (response.ok) {
-
-            document.location.replace(`/posts/${postID}`);
+            console.log(response);
+            document.location.replace(`/`);
         } else {
-            alert('Failed to edit post');
+            alert('Failed to delete post');
         }
-    }
-};
+    };
+    const cancelButtonHandler = async (event) => {
+        event.preventDefault();
 
-const deletePostHandler = async (event) => {
-    event.preventDefault();
-    const postID = document.querySelector('#updatepost').dataset.pid;
+        document.location.replace(`/dashboard`);
 
-    const response = await fetch(`../api/posts/${postID}`, {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-    });
-    if (response.ok) {
-        console.log(response);
-        document.location.replace(`/`);
-    } else {
-        alert('Failed to delete post');
-    }
-};
+    };
 
-document
-    .querySelector('#updatepost')
-    .addEventListener('click', editPostHandler);
-document
-    .querySelector('#delete-post')
-    .addEventListener('click', deletePostHandler);
+    document
+        .querySelector('#updatepost')
+        .addEventListener('click', editPostHandler);
+    document
+        .querySelector('#delete-post')
+        .addEventListener('click', deletePostHandler);
+    document
+        .querySelector('#cancel')
+        .addEventListener('click', cancelButtonHandler);
 
 </script>

@@ -1,0 +1,65 @@
+<div class="card">
+  <header class="card-header has-background-primary">
+    <p class="card-header-title has-text-white">
+      {{post.title}} <br> by {{post.user.name}} on {{format_date post.createdAt}}
+    </p>
+  </header>
+  <div class="card-content">
+    <div class="content">
+      {{post.content}}
+    </div>
+  </div>
+</div>
+<br>
+<div class="container">
+    <textarea class="textarea" placeholder="Write your comment here" id="content"></textarea>
+    <br>
+    <div class="field">
+        <p class="control">
+            <button class="button is-primary" id="postcomment" data-pid={{post.id}}>
+                Post Comment
+            </button>
+            <button class="button is-primary" id="cancel">
+                Cancel
+            </button>
+        </p>
+    </div>
+</div>
+
+<script>
+    const postCommentHandler = async (event) => {
+        event.preventDefault();
+        const content = document.querySelector("#content").value.trim();
+        const postID = document.querySelector('#postcomment').dataset.pid;
+
+        if (content) {
+            const response = await fetch(`../api/comments/`, {
+                method: 'POST',
+                body: JSON.stringify({ content, post_id: postID }),
+                headers: { 'Content-Type': 'application/json' },
+            });
+
+            if (response.ok) {
+
+                document.location.replace(`/posts/${postID}`);
+            } else {
+                alert('Failed to add comment');
+            }
+        }
+    };
+
+    const cancelButtonHandler = async (event) => {
+        event.preventDefault();
+        const postID = document.querySelector('#postcomment').dataset.pid;
+        document.location.replace(`/posts/${postID}`);
+
+    };
+
+    document
+        .querySelector('#postcomment')
+        .addEventListener('click', postCommentHandler);
+    document
+        .querySelector('#cancel')
+        .addEventListener('click', cancelButtonHandler);
+
+</script>
