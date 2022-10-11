@@ -16,7 +16,7 @@ const PORT = process.env.PORT || 3001;
 // Creating the session - 5 minute maxAge
 
 const sess = {
-    secret: process.env.SESS_SECRET,
+    secret: "dsakljsdfjdsfsd;sdafsd",
     cookie: {
       maxAge: 60 * 60 * 1000
     },
