@@ -52,7 +52,7 @@ router.get('/signup', signedIn, async (req, res) => {
 
 router.get('/add-post', withAuth, async (req, res) => {
     try {
-        res.render('add-post', {user_id: req.session.user_id, logged_in: req.session.logged_in } )
+        res.render('add-post', { logged_in: req.session.logged_in } )
     } catch (err) {
         res.status(400).json(err);
     }
